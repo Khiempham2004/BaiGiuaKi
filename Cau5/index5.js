@@ -66,13 +66,6 @@ server.post("/user/login" , async (req , res) => {
     }
 })
 
-server.post("/user/logout" , (req ,res) =>{
-    res.json({
-        code : 200,
-        message : "Logout in successfully"
-    })
-})
-
 server.listen(port, () => {
     console.log(`server is running ${port}`);
 })
