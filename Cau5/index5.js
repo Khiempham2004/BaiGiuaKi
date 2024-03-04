@@ -15,36 +15,36 @@ const port = 3001;
 
 //create
 server.use(express.json())
-server.post("/user/create" , async(req , res) => {
+server.post("/user/create", async (req, res) => {
     try {
-        const {email , password} = req.body;
+        const { email, password } = req.body;
         if (!email || !password) {
-            throw new Error ("Email anh Password in successfully")
+            throw new Error("Email anh Password in successfully")
         }
 
-        const currentUser = await loginModel.findOne({email})
+        const currentUser = await loginModel.findOne({ email })
         if (currentUser) {
-            throw new Error ("Email in successfully")
+            throw new Error("Email in successfully")
         }
-        const newUser = await loginModel.create({email , password});
+        const newUser = await loginModel.create({ email, password });
         res.status(200).send({
-            message : "Login in successfully",
-            data : newUser,
+            message: "Login in successfully",
+            data: newUser,
         })
     } catch (error) {
         res.json({
-            code : 404,
-            message : "error"
+            code: 404,
+            message: "error"
         })
     }
 })
 // login
-server.post("/user/login" , async (req , res) => {
+server.post("/user/login", async (req, res) => {
     try {
-        const {email , password } = req.body;
-        const currentUser = await loginModel.findOne({email});
+        const { email, password } = req.body;
+        const currentUser = await loginModel.findOne({ email });
         if (!currentUser) {
-            throw new Error ('user not default')
+            throw new Error('user not default')
         }
 
         const currentPassword = await currentUser.comparePassword(password);
@@ -52,16 +52,16 @@ server.post("/user/login" , async (req , res) => {
             throw new Error('password not default')
         }
 
-        const token = jwt.sign({userId : currentUser._id} , 'your-secret-key' , {expiresIn : '1h'});
+        const token = jwt.sign({ userId: currentUser._id }, 'your-secret-key', { expiresIn: '1h' });
         res.json({
-            data : token,
-            code : 200,
-            message : "error.message"
+            data: token,
+            code: 200,
+            message: "error.message"
         })
     } catch (error) {
         res.json({
-            code : 400,
-            message : "success"
+            code: 400,
+            message: "success"
         })
     }
 })
